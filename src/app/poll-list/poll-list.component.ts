@@ -13,14 +13,6 @@ export class PollListComponent implements OnInit {
 
   numberOfVotes: number;
 
-  constructor() {
-    this.question = '';
-    this.votes = [];
-    this.voted = false;
-    this.numberOfVotes = 0;
-    this.pollImage = '';
-  }
-
   ngOnInit(): void {
     if (this.votes.length) {
       this.numberOfVotes = this.votes.reduce((acc, curr) => {

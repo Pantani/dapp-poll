@@ -1,13 +1,13 @@
-export interface Pool {
+export interface Poll {
   id: number;
   question: string;
-  results: string[];
+  results: number[];
   options: string[];
   thumbnail: string;
+  voted: boolean;
 }
 
-export interface Voter{
+export interface Voter {
   id: string;
   voted: number[];
 }
-

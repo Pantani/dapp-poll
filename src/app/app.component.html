@@ -9,8 +9,8 @@
   </button>
 </nav>
 <section class="jumpotron bg-light text-center">
-  <h1>Pools Rethinked</h1>
-  <p class="lead text-muted">Powered by Blockchain</p>
+  <h1>Blockchain Pools</h1>
+  <p class="lead text-muted">Powered by FIAP MBA</p>
 </section>
 
 <app-poll-create *ngIf="showForm"></app-poll-create>
@@ -21,11 +21,18 @@
       *ngFor="let poll of polls"
       [question]="poll.question"
       [voted]="poll.voted"
-      [votes]="poll.votes"
-      [pollImage]="poll.image"
+      [votes]="poll.results"
+      [pollImage]="poll.thumbnail"
+      (click)="setActivePoll(poll)"
     ></app-poll-list>
   </div>
   <div class="container poll-detail">
-    <app-poll-vote></app-poll-vote>
+    <app-poll-vote
+      *ngIf="activePoll"
+      [question]="activePoll.question"
+      [voted]="activePoll.voted"
+      [options]="activePoll.options"
+      [results]="activePoll.results"
+    ></app-poll-vote>
   </div>
 </div>

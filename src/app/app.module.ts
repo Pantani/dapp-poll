@@ -8,7 +8,12 @@ import { PollListComponent } from './poll-list/poll-list.component';
 import { PollVoteComponent } from './poll-vote/poll-vote.component';
 
 @NgModule({
-  declarations: [AppComponent, PollCreateComponent, PollListComponent, PollVoteComponent],
+  declarations: [
+    AppComponent,
+    PollCreateComponent,
+    PollListComponent,
+    PollVoteComponent,
+  ],
   imports: [BrowserModule, FormsModule, ReactiveFormsModule],
   providers: [],
   bootstrap: [AppComponent],
