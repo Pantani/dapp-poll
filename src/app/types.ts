@@ -9,5 +9,5 @@ export interface Pool {
 export interface Voter{
   id: string;
   voted: number[];
-  
 }
+
