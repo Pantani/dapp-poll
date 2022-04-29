@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
-import { Poll } from '../types';
+import { Poll, PollForm } from '../types';
 
 @Injectable({
   providedIn: 'root',
@@ -35,7 +35,7 @@ export class PollService {
     console.log(pollID, voteNumber);
   }
 
-  createPoll(question: string, thumbnail: string, options: string[]) {
-    console.log(question, thumbnail, options);
+  createPoll(poll: PollForm) {
+    console.log(poll);
   }
 }
