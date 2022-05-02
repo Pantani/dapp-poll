@@ -23,6 +23,9 @@ export class AppComponent {
 
   handlePollCreate(poll: PollForm) {
     this.ps.createPoll(poll);
+    setTimeout(() => {
+      this.showForm = false;
+    }, 1000);
   }
 
   handlePollVote(pollVoted: PollVote) {

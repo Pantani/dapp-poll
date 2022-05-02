@@ -1,8 +1,7 @@
 import { Injectable } from '@angular/core';
-import { Observable, of } from 'rxjs';
 import { Web3Service } from '../blockchain/web3.service';
-import { Poll, PollForm } from '../types';
-import { fromAscii } from 'web3-utils';
+import { Poll, PollForm, Voter } from '../types';
+import { fromAscii, toAscii } from 'web3-utils';
 
 @Injectable({
   providedIn: 'root',
@@ -10,27 +9,19 @@ import { fromAscii } from 'web3-utils';
 export class PollService {
   constructor(private web3: Web3Service) {}
 
-  getPolls(): Observable<Poll[]> {
-    return of([
-      {
-        id: 1,
-        question: 'What is your best animal?',
-        results: [25, 100, 2],
-        options: ['cats', 'dogs', 'birds'],
-        thumbnail:
-          'https://uploads.mwp.mprod.getusinfo.com/uploads/sites/29/2021/08/Screen-Shot-2021-08-16-at-5.37.50-AM.png',
-        voted: true,
-      },
-      {
-        id: 2,
-        question: 'Do you like humans, aliens or animals?',
-        results: [0, 24, 39],
-        options: ['homans', 'aliens', 'animals'],
-        thumbnail:
-          'https://d2v9ipibika81v.cloudfront.net/uploads/sites/72/431539-PE9O1K-661-1140x684.jpg',
-        voted: false,
-      },
-    ]);
+  async getPolls(): Promise<Poll[]> {
+    const acc = await this.web3.getAccount();
+    const voter = await this.web3.call('getVoter', acc);
+    const voterNormalized = this.normalizeVoter(voter);
+
+    const polls: Poll[] = [];
+    const totalPolls = await this.web3.call('getTotalPolls');
+    for (let i = 0; i < totalPolls; i++) {
+      const pollRaw = await this.web3.call('getPoll', i);
+      const pollNormalized = this.normalizePoll(pollRaw, voterNormalized);
+      polls.push(pollNormalized);
+    }
+    return polls;
   }
 
   vote(pollID: number, voteNumber: number) {
@@ -44,5 +35,26 @@ export class PollService {
       poll.thumbnail || '',
       poll.options.map((opt) => fromAscii(opt))
     );
+  }
+
+  private normalizeVoter(voter: any[]): Voter {
+    return {
+      id: voter[0],
+      voted: voter[1].map((vote: any) => parseInt(vote)),
+    };
+  }
+
+  private normalizePoll(pollRaw: any[], voter: Voter): Poll {
+    return {
+      id: parseInt(pollRaw[0]),
+      question: pollRaw[1],
+      thumbnail: pollRaw[2],
+      results: pollRaw[3].map((vote: any) => parseInt(vote)),
+      options: pollRaw[4].map((opt: any) => toAscii(opt)),
+      voted:
+        voter.voted.length &&
+        voter.voted.find((votedId) => votedId === parseInt(pollRaw[0])) !=
+          undefined,
+    };
   }
 }

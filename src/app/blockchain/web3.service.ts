@@ -37,4 +37,9 @@ export class Web3Service {
     const acc = await this.getAccount();
     this.contract.methods[fnName](...args).send({ from: acc });
   }
+
+  async call(fnName: string, ...args: any) {
+    const acc = await this.getAccount();
+    return this.contract.methods[fnName](...args).call({ from: acc });
+  }
 }
