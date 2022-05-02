@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { PollService } from './poll-service/poll.service';
 import { Poll, PollForm, PollVote } from './types';
 
@@ -7,7 +7,7 @@ import { Poll, PollForm, PollVote } from './types';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.sass'],
 })
-export class AppComponent {
+export class AppComponent implements OnInit {
   showForm = false;
   activePoll: Poll = null;
   polls = this.ps.getPolls();
@@ -21,11 +21,15 @@ export class AppComponent {
     }, 100);
   }
 
+  ngOnInit(): void {
+    this.ps.onEvent('PollCreated').subscribe(() => {
+      this.polls = this.ps.getPolls();
+      this.showForm = false;
+    });
+  }
+
   handlePollCreate(poll: PollForm) {
     this.ps.createPoll(poll);
-    setTimeout(() => {
-      this.showForm = false;
-    }, 1000);
   }
 
   handlePollVote(pollVoted: PollVote) {

@@ -57,4 +57,8 @@ export class PollService {
           undefined,
     };
   }
+
+  onEvent(name: string) {
+    return this.web3.onEvents(name);
+  }
 }
