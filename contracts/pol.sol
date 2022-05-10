@@ -20,6 +20,7 @@ contract PollContract {
     mapping(address => Voter) private voters;
 
     event PollCreated(uint256 _pollId);
+    event Voted(address voter, uint256 _pollId, uint256 _vote);
 
     function createPoll(
         string memory _question,
@@ -76,6 +77,8 @@ contract PollContract {
 
         voters[msg.sender].votedIds.push(_pollId);
         voters[msg.sender].votedMap[_pollId] = true;
+
+        emit Voted(msg.sender, _pollId, _vote);
     }
 
     function getVoter(address _id)

@@ -1,5 +1,10 @@
 [
   {
+    "inputs": [],
+    "stateMutability": "nonpayable",
+    "type": "constructor"
+  },
+  {
     "anonymous": false,
     "inputs": [
       {
@@ -13,6 +18,31 @@
     "type": "event"
   },
   {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": false,
+        "internalType": "address",
+        "name": "voter",
+        "type": "address"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "_pollId",
+        "type": "uint256"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "_vote",
+        "type": "uint256"
+      }
+    ],
+    "name": "Voted",
+    "type": "event"
+  },
+  {
     "inputs": [
       {
         "internalType": "string",
@@ -21,7 +51,7 @@
       },
       {
         "internalType": "string",
-        "name": "_thumb",
+        "name": "_thumbnail",
         "type": "string"
       },
       {
@@ -114,14 +144,14 @@
   {
     "inputs": [
       {
-        "internalType": "uint256",
+        "internalType": "uint64",
         "name": "_pollId",
-        "type": "uint256"
+        "type": "uint64"
       },
       {
-        "internalType": "uint64",
+        "internalType": "uint256",
         "name": "_vote",
-        "type": "uint64"
+        "type": "uint256"
       }
     ],
     "name": "vote",
